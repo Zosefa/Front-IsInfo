@@ -26,6 +26,21 @@ const Login = () => {
       });
     });
     })
+    const getRole = async (token) => { 
+        try {
+            const response = await axios.post(`${import.meta.env.VITE_API_BACK_URL}/decode`, {
+                token: token
+            }, {
+                headers: { 
+                    'Content-Type': 'application/json',
+                },
+            });
+            localStorage.setItem("role", response.data.data);
+        } catch (error) {
+            console.error("Erreur lors de la récupération du rôle :", error);
+        }
+    }
+
     const Connexion = async (event) => {
         event.preventDefault();
         try{
@@ -42,6 +57,7 @@ const Login = () => {
             if(authentifier){
                 const token = authentifier;
                 localStorage.setItem("token",token);
+                await getRole(token);
                 navigate('/Admin');
             }
         }catch(error){

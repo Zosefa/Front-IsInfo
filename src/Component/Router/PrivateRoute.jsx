@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 
 const PrivateRoute = ({ children }) => {
     const token = localStorage.getItem('token');
-    if(!token){
+    const role = localStorage.getItem('role');
+    if(!token || !role){
         return <Navigate to="/login" />;
     }
   return children;
